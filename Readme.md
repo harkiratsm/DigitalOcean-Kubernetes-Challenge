@@ -1,6 +1,8 @@
 ## Running MongoDB on Kubernetes 
 >  Kubernetes is the industry-leading container orchestration platform. You can use any distribution of Kubernetes to manage the full lifecycle of your MongoDB clusters, wherever you choose to run them, from on-premises infrastructure to the public cloud.
 
+We are not gonna deploy the standalone mongodb instance , we gonna deploy mongodb replicasets 
+
 <img src="https://www.cloudsavvyit.com/p/uploads/2021/07/f5932bc2.jpg?width=1198&trim=1,1&bg-color=000&pad=1,1" alt="mongodb" >
 
 
@@ -25,7 +27,7 @@ cd DigitalOcean-Kubernetes-Challenge
 
 Take a Look At ```headless-service.yaml``` 
 
-```vim
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -44,7 +46,7 @@ spec:
 
 Take a look at ```mongodb-statefulset.yaml```
 
-```vim
+```yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -102,7 +104,7 @@ kubectl exec -it mongo-0 -- mongosh
 rs.initiate()
 var cfg = rs.conf()
 cfg.members[0].host="mongo-0.mongo:27017"
-rs.reconfig()
+rs.reconfig(cfg)
 rs.status()
 rs.add("mongo-1.mongo:27017")
 rs.add("mongo-2.mongo:27017")
@@ -110,7 +112,7 @@ rs.add("mongo-2.mongo:27017")
 
 Accessing the mongodb replica set 
 
-They are two way with ehihc we can access **Within a Cluster** and **Outside the cluster**
+They are two way with which we can access **Within a Cluster** and **Outside the cluster**
 
 Let discuss about **Outside the cluster**
 We have to expose it as LoadBalancer for it we using **[MetalLB](https://metallb.universe.tf/installation/)**
@@ -132,28 +134,20 @@ kubectl expose pod mongo-0 --port 27017 --target-port 27017 --type LoadBalancer
 ```
 Now expose the other pods also .
 
-4) ```bash
+4) Now you access it by using the following command 
+```bash
 mongosh mongodb://192.168.59.51
 ```
 
-
-How to add new Member to the replicaset for that We are going to scale the statefulset
+To add new Member to the replicaset for that We are going to scale the statefulset
  
 ```bash
 kubectl scale sts mongo --replicas 4
 ```
 
 
-Running inside Kubernetes
-
-we are using stateful sets because deploying mongodb as statefulset because members of mongodb replicaset need to talk to each other so for that we need statefulsets .
 
 
-Usage 
-git clone
-1) do ls ,  show the output [ss]
-2) tell what is headless service
-3) tell what is stateful set
 
 
 
