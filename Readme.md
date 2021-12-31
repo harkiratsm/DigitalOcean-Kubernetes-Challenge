@@ -1,4 +1,4 @@
-## Running MongoDB on Kubernetes 
+## MongoDB Kubernetes Cluster 
 >  Kubernetes is the industry-leading container orchestration platform. You can use any distribution of Kubernetes to manage the full lifecycle of your MongoDB clusters, wherever you choose to run them, from on-premises infrastructure to the public cloud.
 
 <img src="https://www.cloudsavvyit.com/p/uploads/2021/07/f5932bc2.jpg?width=1198&trim=1,1&bg-color=000&pad=1,1" alt="mongodb" >
@@ -172,7 +172,9 @@ kubectl scale sts mongo --replicas 4
 ```bash
 kubectl create deployment mongo --image=mongo
 ```
-2) 
+![image](https://user-images.githubusercontent.com/71957674/147807110-ea6b837a-f12f-4599-85ce-d8e3e00507a1.png)
+
+2) Next Step 
 ```bash
 kubectl exec -it <pod_name> -- bin/bash
 ```
@@ -190,7 +192,6 @@ Like wise you can also do
 ```bash
 mongosh mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,....  
 ```
-
 
 To know more about it you can checkout [here](https://docs.mongodb.com/manual/tutorial/deploy-replica-set/)
 
