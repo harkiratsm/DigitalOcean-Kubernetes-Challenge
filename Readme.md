@@ -1,8 +1,6 @@
 ## Running MongoDB on Kubernetes 
 >  Kubernetes is the industry-leading container orchestration platform. You can use any distribution of Kubernetes to manage the full lifecycle of your MongoDB clusters, wherever you choose to run them, from on-premises infrastructure to the public cloud.
 
-We are not gonna deploy the standalone mongodb instance , we gonna deploy mongodb replicasets 
-
 <img src="https://www.cloudsavvyit.com/p/uploads/2021/07/f5932bc2.jpg?width=1198&trim=1,1&bg-color=000&pad=1,1" alt="mongodb" >
 
 
@@ -85,6 +83,24 @@ spec:
         requests:
           storage: 1Gi
 ```
+
+Take a look at ```config.yaml``` , to know more about [visit here](https://metallb.universe.tf/configuration/#layer-2-configuration)
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 192.168.59.50-192.168.59.250
+```
+
 Now deploy those ```yaml``` file 
 
 Use the Following command
@@ -138,6 +154,10 @@ Now expose the other pods also .
 ```bash
 mongosh mongodb://192.168.59.51
 ```
+Like you can also do this  
+```bash
+mongosh mongodb://{ExternalIp1,ExternalIp2,...}
+```
 
 To add new Member to the replicaset for that We are going to scale the statefulset
  
@@ -145,8 +165,25 @@ To add new Member to the replicaset for that We are going to scale the statefuls
 kubectl scale sts mongo --replicas 4
 ```
 
+Now Lets talk on accesing Replica set within a Cluster - 
 
+1) lets Create a mongodb deployment 
+```bash
+kubectl create deployment mongo --image=mongo
+```
+2) Next step
+```bash
+kubectl exec -it <pod_name> -- bin/bash
+```
 
+3) last step 
+```bash
+mongosh mongodb://mongo-0.mongo:27017
+```
+Like wise you can also do 
+```bash
+mongosh mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,....so on to  
+```
 
 
 
