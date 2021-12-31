@@ -9,14 +9,11 @@
 - kubectl 
 - mongoshell
 
-
 ### Steps 
 
 1) Clone this repository 
 ```bash
-
 git clone https://github.com/harkiratsm/DigitalOcean-Kubernetes-Challenge.git
-
 ```
 
 ```bash
@@ -126,12 +123,12 @@ rs.add("mongo-1.mongo:27017")
 rs.add("mongo-2.mongo:27017")
 ```
 
-Accessing the mongodb replica set 
+#### Accessing the mongodb replica set 
 
 They are two way with which we can access **Within a Cluster** and **Outside the cluster**
 
-Let discuss about **Outside the cluster**
-We have to expose it as LoadBalancer for it we using **[MetalLB](https://metallb.universe.tf/installation/)**
+##### Let discuss about **Outside the cluster**
+For that we have to expose it as LoadBalancer for it we using **[MetalLB](https://metallb.universe.tf/installation/)**
 
 1) Lets first install MetalLB  
 
@@ -151,6 +148,7 @@ kubectl expose pod mongo-0 --port 27017 --target-port 27017 --type LoadBalancer
 Now expose the other pods also .
 
 4) Now you access it by using the following command 
+
 ```bash
 mongosh mongodb://192.168.59.51
 ```
@@ -159,32 +157,37 @@ Like you can also do this
 mongosh mongodb://{ExternalIp1,ExternalIp2,...}
 ```
 
-To add new Member to the replicaset for that We are going to scale the statefulset
+*To add new Member to the replicaset for that We are going to scale the statefulset*
  
 ```bash
 kubectl scale sts mongo --replicas 4
 ```
 
-Now Lets talk on accesing Replica set within a Cluster - 
+##### Now Lets talk on accesing Replica set within a Cluster - 
 
-1) lets Create a mongodb deployment 
+1) Lets first create a mongodb deployment use the following command 
 ```bash
 kubectl create deployment mongo --image=mongo
 ```
-2) Next step
+2) 
 ```bash
 kubectl exec -it <pod_name> -- bin/bash
 ```
+To know the pod_name type in the command ```kubectl get pods``` 
 
-3) last step 
+3) Now we are inside the pod type in the following command to connect .
+
 ```bash
 mongosh mongodb://mongo-0.mongo:27017
 ```
-Like wise you can also do 
+
+Like wise you can also do
+
 ```bash
-mongosh mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,....so on to  
+mongosh mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,....  
 ```
 
 
+To know more about it you can checkout [here](https://docs.mongodb.com/manual/tutorial/deploy-replica-set/)
 
 
