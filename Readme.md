@@ -3,9 +3,22 @@
 
 <img src="https://www.cloudsavvyit.com/p/uploads/2021/07/f5932bc2.jpg?width=1198&trim=1,1&bg-color=000&pad=1,1" alt="mongodb" >
 
+#### What is DigitalOcean Kubernetes (DOKS)?
+> DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that helps us to deploy Kubernetes clusters hassle free without needing to handle the control panel and containerised infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and block storage volumes.
+
+To know more about **Kubernetes Features** you can checkout my blog [here](https://dev.to/harkiratsm/day-2-100daysofkubernetes-3b5p#3)
+
+### Getting started with DOKS 
+1) In the Dashboard go to the Kubernetes Section 
+2) Next Step is to create a cluster 
+![doks-2](https://user-images.githubusercontent.com/71957674/148639686-baa1a76f-2d15-43ac-a078-8f870dff0d35.png)
+3)Fill out the cluster details 
+![doks-3](https://user-images.githubusercontent.com/71957674/148639786-d996ed0d-ee2d-459f-8adb-9bf44de8bb3a.png)
+
+Now Your cluster is created , If you are still stuck then just watch the video by Digital Ocean [here](https://www.youtube.com/watch?v=cJKdo-glRD0) .
 
 ### Requirements
-
+- [doctl](https://docs.digitalocean.com/reference/doctl/how-to/install/)
 - kubectl 
 - mongoshell
 
